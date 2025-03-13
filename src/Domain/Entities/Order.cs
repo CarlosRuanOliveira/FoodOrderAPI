@@ -8,11 +8,15 @@ namespace Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public OrderStatus Status { get; private set; }
         public decimal TotalPriceCents { get; private set; }
-        public Customer Customer { get; private set; }
+        public required Customer Customer { get; set; }
         public DateTime? UpdatedAt { get; private set; }
-        public User? UpdatedBy { get; private set; }
+        public long? UpdatedBy { get; private set; }
         public long CustomerId { get; private set; }
-        public ICollection<OrderItem> Items { get; private set; } = [];
+        public ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
+
+        public Order()
+        {
+        }
 
         public Order(Customer customer)
         {
