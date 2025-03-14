@@ -23,6 +23,18 @@ namespace Domain.Entities
             CreatedAt = DateTime.UtcNow;
             Status = OrderStatus.Pending;
             Customer = customer;
+            CustomerId = customer.Id;
+        }
+
+        public void UpdateTotalPrice(decimal newTotal)
+        {
+            TotalPriceCents = newTotal;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void AddItem(OrderItem item)
+        {
+            OrderItems.Add(item);
         }
     }
 }

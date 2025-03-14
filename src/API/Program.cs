@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+// builder.Environment.EnvironmentName = "Development";
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<FoodOrderDbContext>(options =>
@@ -10,8 +11,8 @@ builder.Services.AddDbContext<FoodOrderDbContext>(options =>
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.User.RequireUniqueEmail = true; 
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; 
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
 });
 
 builder.Services.AddControllers();
