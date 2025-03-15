@@ -2,7 +2,6 @@ using Application.DTOs;
 using Application.Interfaces;
 using Application.Validators;
 using Domain.Entities;
-using Domain.Enums;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services
@@ -27,7 +26,6 @@ namespace Application.Services
                 if (string.IsNullOrEmpty(request.CustomerFirstName))
                     throw new ArgumentException("O primeiro nome do cliente é obrigatório.");
 
-
                 if (string.IsNullOrEmpty(request.CustomerLastName))
                     throw new ArgumentException("O sobrenome do cliente é obrigatório.");
 
@@ -35,10 +33,8 @@ namespace Application.Services
                 await _orderRepository.AddCustomerAsync(customer);
             }
 
-            var order = new Order
-            {
-                Customer = customer
-            };
+            var order = new Order(customer);
+
             await _orderRepository.AddOrderAsync(order);
 
             var orderItems = new List<OrderItemResponseDTO>();
@@ -46,12 +42,7 @@ namespace Application.Services
 
             foreach (var item in request.OrderItems)
             {
-                var menuItem = await _orderRepository.GetMenuItemByIdAsync(item.ItemId);
-                if (menuItem == null)
-                {
-                    throw new ArgumentException($"Item com ID {item.ItemId} não encontrado no cardápio.");
-                }
-
+                var menuItem = await _orderRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException($"Item com ID {item.ItemId} não encontrado no cardápio.");
                 var orderItem = new OrderItem(order.Id, menuItem.Id, item.Quantity);
                 await _orderRepository.AddOrderItemAsync(orderItem);
 
