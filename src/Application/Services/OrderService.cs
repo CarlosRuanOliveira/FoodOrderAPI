@@ -3,6 +3,7 @@ using Application.Errors;
 using Application.Interfaces;
 using Application.Validators;
 using Domain.Entities;
+using Infrastructure.Persistence;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services
@@ -11,11 +12,13 @@ namespace Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMenuItemRepository _menuItemRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository)
+        public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
             _menuItemRepository = menuItemRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<OrderResponseDTO> CreateOrderAsync(CreateOrderDTO request)
@@ -60,7 +63,7 @@ namespace Application.Services
             }
 
             order.UpdateTotalPrice(totalPrice);
-            await _orderRepository.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return new OrderResponseDTO
             {

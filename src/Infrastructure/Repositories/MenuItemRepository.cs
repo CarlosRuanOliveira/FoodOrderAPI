@@ -25,5 +25,10 @@ namespace Infrastructure.Repositories
         {
             return await _context.MenuItems.FirstOrDefaultAsync(m => m.Id == itemId);
         }
+
+        public async Task<MenuItem?> GetMenuItemByNameAsync(string name)
+        {
+            return await _context.MenuItems.FirstOrDefaultAsync(m => m.Name == name);
+        }
     }
 }
