@@ -22,7 +22,7 @@ namespace Application.DTOs
         public long ItemId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = ErrorMessages.InvalidQuantity)]
+        [Range(1, int.MaxValue, ErrorMessage = ErrorMsg.InvalidQuantity)]
         public int Quantity { get; set; }
     }
 }

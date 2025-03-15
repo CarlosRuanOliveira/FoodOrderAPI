@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Errors;
 
 namespace Application.Validators
 {
@@ -8,19 +9,19 @@ namespace Application.Validators
         {
             if (string.IsNullOrEmpty(request.CustomerPhoneNumber))
             {
-                throw new ArgumentException("O telefone do cliente é obrigatório.");
+                throw new ArgumentException(string.Format(ErrorMsg.CustomerParamRequired, "Telefone"));
             }
 
-            if (request.OrderItems == null || !request.OrderItems.Any())
+            if (request.OrderItems == null || request.OrderItems.Count == 0)
             {
-                throw new ArgumentException("O pedido deve conter pelo menos um item.");
+                throw new ArgumentException(ErrorMsg.OrderMustContainAtLeastOneItem);
             }
 
             foreach (var item in request.OrderItems)
             {
                 if (item.Quantity <= 0)
                 {
-                    throw new ArgumentException($"A quantidade do item com ID {item.ItemId} deve ser maior que zero.");
+                    throw new ArgumentException(string.Format(ErrorMsg.ItemQuantityMustBeGreaterThanZero, item.ItemId));
                 }
             }
         }

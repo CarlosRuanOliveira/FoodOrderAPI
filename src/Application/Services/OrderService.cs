@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Errors;
 using Application.Interfaces;
 using Application.Validators;
 using Domain.Entities;
@@ -24,10 +25,10 @@ namespace Application.Services
             if (customer == null)
             {
                 if (string.IsNullOrEmpty(request.CustomerFirstName))
-                    throw new ArgumentException("O primeiro nome do cliente é obrigatório.");
+                    throw new ArgumentException(string.Format(ErrorMsg.CustomerParamRequired, "Primeiro nome"));
 
                 if (string.IsNullOrEmpty(request.CustomerLastName))
-                    throw new ArgumentException("O sobrenome do cliente é obrigatório.");
+                    throw new ArgumentException(string.Format(ErrorMsg.CustomerParamRequired, "Sobrenome"));
 
                 customer = new Customer(request.CustomerFirstName, request.CustomerLastName ?? string.Empty, request.CustomerPhoneNumber);
                 await _orderRepository.AddCustomerAsync(customer);
@@ -42,7 +43,7 @@ namespace Application.Services
 
             foreach (var item in request.OrderItems)
             {
-                var menuItem = await _orderRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException($"Item com ID {item.ItemId} não encontrado no cardápio.");
+                var menuItem = await _orderRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, item.ItemId));
                 var orderItem = new OrderItem(order.Id, menuItem.Id, item.Quantity);
                 await _orderRepository.AddOrderItemAsync(orderItem);
 
