@@ -8,7 +8,6 @@ namespace Infrastructure.Repositories.Interfaces
         Task AddOrderItemAsync(OrderItem orderItem);
         Task<Customer?> GetCustomerByPhoneAsync(string phoneNumber);
         Task AddCustomerAsync(Customer customer);
-        Task<MenuItem?> GetMenuItemByIdAsync(long itemId);
         Task SaveChangesAsync();
     }
 }

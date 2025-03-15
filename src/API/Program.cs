@@ -6,6 +6,8 @@ using Application.Services;
 using Infrastructure.Repositories.Interfaces;
 using Infrastructure.Repositories;
 
+var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -25,6 +27,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IMenuItemService, MenuItemService>();
+builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 
 var app = builder.Build();
 

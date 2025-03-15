@@ -38,11 +38,6 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<MenuItem?> GetMenuItemByIdAsync(long itemId)
-        {
-            return await _context.MenuItems.FirstOrDefaultAsync(m => m.Id == itemId);
-        }
-
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

@@ -10,10 +10,12 @@ namespace Application.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IMenuItemRepository _menuItemRepository;
 
-        public OrderService(IOrderRepository orderRepository)
+        public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository)
         {
             _orderRepository = orderRepository;
+            _menuItemRepository = menuItemRepository;
         }
 
         public async Task<OrderResponseDTO> CreateOrderAsync(CreateOrderDTO request)
@@ -43,7 +45,7 @@ namespace Application.Services
 
             foreach (var item in request.OrderItems)
             {
-                var menuItem = await _orderRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, item.ItemId));
+                var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, item.ItemId));
                 var orderItem = new OrderItem(order.Id, menuItem.Id, item.Quantity);
                 await _orderRepository.AddOrderItemAsync(orderItem);
 
