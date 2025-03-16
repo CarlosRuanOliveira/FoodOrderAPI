@@ -18,20 +18,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                var orderResponse = await _orderService.CreateOrderAsync(request);
-                return Ok(orderResponse);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { error = "Invalid request", message = ex.Message });
-            }
+            var orderResponse = await _orderService.CreateOrderAsync(request);
+            return Ok(orderResponse);
         }
     }
 }
