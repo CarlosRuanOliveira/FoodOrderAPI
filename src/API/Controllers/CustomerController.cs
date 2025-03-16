@@ -14,7 +14,7 @@ namespace API.Controllers
             _customerService = customerService;
         }
 
-        [HttpGet]
+        [HttpGet("/Customers")]
         public async Task<IActionResult> GetCustomers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var customers = await _customerService.GetCustomersAsync(page, pageSize);
