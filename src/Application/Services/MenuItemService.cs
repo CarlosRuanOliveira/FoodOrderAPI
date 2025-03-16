@@ -38,5 +38,35 @@ namespace Application.Services
                 PriceCents = menuItem.PriceCents
             };
         }
+
+        public async Task<MenuItemResponseDTO> UpdateMenuItemAsync(long menuItemId, UpdateMenuItemDTO request)
+        {
+            MenuItemValidator.ValidateUpdateMenuItemDTO(menuItemId, request);
+
+            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
+            if (menuItem == null)
+                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
+
+            menuItem.Update(request.Name, request.PriceCents);
+
+            await _menuItemRepository.SaveChangesAsync();
+
+            return new MenuItemResponseDTO
+            {
+                Id = menuItem.Id,
+                Name = menuItem.Name,
+                PriceCents = menuItem.PriceCents
+            };
+        }
+
+        public async Task DeleteMenuItemAsync(long menuItemId)
+        {
+            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
+            if (menuItem == null)
+                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
+
+            _menuItemRepository.DeleteMenuItem(menuItem);
+            await _menuItemRepository.SaveChangesAsync();
+        }
     }
 }

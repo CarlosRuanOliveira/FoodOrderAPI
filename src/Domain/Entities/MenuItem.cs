@@ -11,5 +11,11 @@ namespace Domain.Entities
             Name = name;
             PriceCents = priceCents;
         }
+
+        public void Update(string name, decimal priceCents)
+        {
+            Name = name;
+            PriceCents = priceCents;
+        }
     }
 }

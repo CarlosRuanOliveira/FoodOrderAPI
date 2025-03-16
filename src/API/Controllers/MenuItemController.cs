@@ -19,20 +19,22 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemDTO request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var menuItemResponse = await _menuItemService.CreateMenuItemAsync(request);
+            return Ok(menuItemResponse);
+        }
 
-            try
-            {
-                var menuItemResponse = await _menuItemService.CreateMenuItemAsync(request);
-                return Ok(menuItemResponse);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { error = ErrorMsg.InvalidRequest, message = ex.Message });
-            }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMenuItem([FromRoute] long id, [FromBody] UpdateMenuItemDTO request)
+        {
+            await _menuItemService.UpdateMenuItemAsync(id, request);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMenuItem([FromRoute] long id)
+        {
+            await _menuItemService.DeleteMenuItemAsync(id);
+            return NoContent();
         }
     }
 }

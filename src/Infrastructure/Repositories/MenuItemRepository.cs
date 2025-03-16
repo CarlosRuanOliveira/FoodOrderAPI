@@ -24,5 +24,15 @@ namespace Infrastructure.Repositories
         {
             return await _context.MenuItems.FirstOrDefaultAsync(m => m.Name == name);
         }
+
+        public void UpdateMenuItem(MenuItem menuItem)
+        {
+            _context.MenuItems.Update(menuItem);
+        }
+
+        public void DeleteMenuItem(MenuItem menuItem)
+        {
+            _context.MenuItems.Remove(menuItem);
+        }
     }
 }

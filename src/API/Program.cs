@@ -5,6 +5,7 @@ using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Repositories.Interfaces;
 using Infrastructure.Repositories;
+using API.Middlewares;
 
 var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
 
@@ -40,6 +41,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthorization();
 
