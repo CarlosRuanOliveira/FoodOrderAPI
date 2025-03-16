@@ -1,5 +1,6 @@
 using Application.DTOs;
 using Application.Interfaces;
+using Application.Validators;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services
@@ -15,6 +16,8 @@ namespace Application.Services
 
         public async Task<List<CustomerResponseDTO>> GetCustomersAsync(int page, int pageSize)
         {
+            CustomerValidator.ValidatePageAndPageSize(page, pageSize);
+
             var customers = await _customerRepository.GetCustomersPagedAsync(page, pageSize);
 
             return customers.Select(c => new CustomerResponseDTO
