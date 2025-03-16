@@ -3,7 +3,7 @@ using Application.Errors;
 using Application.Interfaces;
 using Application.Validators;
 using Domain.Entities;
-using Infrastructure.Persistence;
+using Domain.Enums;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services
@@ -33,7 +33,7 @@ namespace Application.Services
                 if (string.IsNullOrEmpty(request.CustomerLastName))
                     throw new ArgumentException(string.Format(ErrorMsg.CustomerParamRequired, "Sobrenome"));
 
-                customer = new Customer(request.CustomerFirstName, request.CustomerLastName ?? string.Empty, request.CustomerPhoneNumber);
+                customer = new Customer(request.CustomerFirstName, request.CustomerLastName, request.CustomerPhoneNumber);
                 await _orderRepository.AddCustomerAsync(customer);
                 await _orderRepository.SaveChangesAsync();
             }
@@ -48,7 +48,7 @@ namespace Application.Services
 
             foreach (var item in request.OrderItems)
             {
-                var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, item.ItemId));
+                var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(item.ItemId) ?? throw new KeyNotFoundException(string.Format(ErrorMsg.MenuItemNotFound, item.ItemId));
                 var orderItem = new OrderItem(order.Id, menuItem.Id, item.Quantity);
                 await _orderRepository.AddOrderItemAsync(orderItem);
 
@@ -72,6 +72,21 @@ namespace Application.Services
                 TotalPriceCents = order.TotalPriceCents,
                 OrderItems = orderItems
             };
+        }
+
+        public async Task UpdateOrderAsync(long orderId, UpdateOrderDTO request)
+        {
+            OrderValidator.ValidateUpdateOrder(request);
+
+            var order = await _orderRepository.GetByIdAsync(orderId) ?? throw new KeyNotFoundException(string.Format(ErrorMsg.OrderNotFound, orderId));
+
+            if (order.Status == request.Status)
+                return;
+
+            order.UpdateStatus(request.Status, 0);
+
+            _orderRepository.Update(order);
+            await _orderRepository.SaveChangesAsync();
         }
     }
 }

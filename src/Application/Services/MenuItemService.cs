@@ -43,10 +43,7 @@ namespace Application.Services
         {
             MenuItemValidator.ValidateUpdateMenuItemDTO(menuItemId, request);
 
-            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
-            if (menuItem == null)
-                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
-
+            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId) ?? throw new KeyNotFoundException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
             menuItem.Update(request.Name, request.PriceCents);
 
             await _menuItemRepository.SaveChangesAsync();
@@ -61,10 +58,7 @@ namespace Application.Services
 
         public async Task DeleteMenuItemAsync(long menuItemId)
         {
-            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
-            if (menuItem == null)
-                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
-
+            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId) ?? throw new KeyNotFoundException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
             _menuItemRepository.DeleteMenuItem(menuItem);
             await _menuItemRepository.SaveChangesAsync();
         }

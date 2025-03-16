@@ -13,5 +13,7 @@ namespace Application.Errors
         public const string InvalidRequest = "Requisição inválida.";
         public const string InternalError = "Ocorreu um erro interno.";
         public const string InvalidPaginationValues = "Os valores de página e tamanho da página devem ser maiores que zero.";
+        public const string InvalidOrderStatus = "Status do pedido inválido.";
+        public const string OrderNotFound = "Pedido com ID {0} não encontrado.";
     }
 }

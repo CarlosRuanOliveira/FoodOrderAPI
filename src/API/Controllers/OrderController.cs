@@ -21,5 +21,12 @@ namespace API.Controllers
             var orderResponse = await _orderService.CreateOrderAsync(request);
             return Ok(orderResponse);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder([FromRoute] long id, [FromBody] UpdateOrderDTO request)
+        {
+            await _orderService.UpdateOrderAsync(id, request);
+            return NoContent();
+        }
     }
 }
