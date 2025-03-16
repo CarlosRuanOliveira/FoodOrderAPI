@@ -12,5 +12,6 @@ namespace Application.Errors
         public const string MenuItemAlreadyExists = "O item com nome {0}[ID: {1}] já existe no cardápio.";
         public const string InvalidRequest = "Requisição inválida.";
         public const string InternalError = "Ocorreu um erro interno.";
+        public const string InvalidPaginationValues = "Os valores de página e tamanho da página devem ser maiores que zero.";
     }
 }
