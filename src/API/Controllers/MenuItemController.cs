@@ -20,9 +20,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemDTO request)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             try
             {
@@ -32,6 +30,45 @@ namespace API.Controllers
             catch (ArgumentException ex)
             {
                 return BadRequest(new { error = ErrorMsg.InvalidRequest, message = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMenuItem([FromRoute] long id, [FromBody] UpdateMenuItemDTO request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                await _menuItemService.UpdateMenuItemAsync(id, request);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = ErrorMsg.InternalError });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMenuItem([FromRoute] long id)
+        {
+            try
+            {
+                await _menuItemService.DeleteMenuItemAsync(id);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = ErrorMsg.InternalError });
             }
         }
     }

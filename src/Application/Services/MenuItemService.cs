@@ -39,13 +39,13 @@ namespace Application.Services
             };
         }
 
-        public async Task<MenuItemResponseDTO> UpdateMenuItemAsync(UpdateMenuItemDTO request)
+        public async Task<MenuItemResponseDTO> UpdateMenuItemAsync(long menuItemId, UpdateMenuItemDTO request)
         {
-            MenuItemValidator.ValidateUpdateMenuItemDTO(request);
+            MenuItemValidator.ValidateUpdateMenuItemDTO(menuItemId, request);
 
-            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(request.Id);
+            var menuItem = await _menuItemRepository.GetMenuItemByIdAsync(menuItemId);
             if (menuItem == null)
-                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, request.Id));
+                throw new ArgumentException(string.Format(ErrorMsg.MenuItemNotFound, menuItemId));
 
             menuItem.Update(request.Name, request.PriceCents);
 

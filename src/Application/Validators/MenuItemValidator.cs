@@ -18,14 +18,14 @@ namespace Application.Validators
                 throw new ArgumentException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));
         }
 
-        public static void ValidateUpdateMenuItemDTO(UpdateMenuItemDTO request)
+        public static void ValidateUpdateMenuItemDTO(long menuItemId, UpdateMenuItemDTO request)
         {
-            if (request.Id <= 0)
-                throw new ArgumentException(string.Format(ErrorMsg.ParamRequired, request.Id));
+            if (menuItemId <= 0)
+                throw new ArgumentException(string.Format(ErrorMsg.ParamRequired, menuItemId));
             if (string.IsNullOrWhiteSpace(request.Name))
                 throw new ArgumentException(string.Format(ErrorMsg.ParamRequired, "Nome"));
-            if (!IsPriceValid(request.PriceCents)){
-                throw new ArgumentException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));}
+            if (!IsPriceValid(request.PriceCents))
+                throw new ArgumentException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));
         }
 
         private static bool IsPriceValid(decimal price)
