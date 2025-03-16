@@ -5,19 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class MenuItemRepository : IMenuItemRepository
+    public class MenuItemRepository : BaseRepository, IMenuItemRepository
     {
-        private readonly FoodOrderDbContext _context;
-
-        public MenuItemRepository(FoodOrderDbContext context)
-        {
-            _context = context;
-        }
+        public MenuItemRepository(FoodOrderDbContext context) : base(context) { }
 
         public async Task<MenuItem> AddMenuItemAsync(MenuItem menuItem)
         {
-            _context.MenuItems.Add(menuItem);
-            await _context.SaveChangesAsync();
+            await _context.MenuItems.AddAsync(menuItem);
             return menuItem;
         }
 

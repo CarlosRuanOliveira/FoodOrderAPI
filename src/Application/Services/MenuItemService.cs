@@ -11,12 +11,10 @@ namespace Application.Services
     public class MenuItemService : IMenuItemService
     {
         private readonly IMenuItemRepository _menuItemRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public MenuItemService(IMenuItemRepository menuItemRepository, IUnitOfWork unitOfWork)
+        public MenuItemService(IMenuItemRepository menuItemRepository)
         {
             _menuItemRepository = menuItemRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<MenuItemResponseDTO> CreateMenuItemAsync(CreateMenuItemDTO request)
@@ -31,7 +29,7 @@ namespace Application.Services
             menuItem = new MenuItem(request.Name, request.PriceCents);
 
             await _menuItemRepository.AddMenuItemAsync(menuItem);
-            await _unitOfWork.SaveChangesAsync();
+            await _menuItemRepository.SaveChangesAsync();
 
             return new MenuItemResponseDTO
             {

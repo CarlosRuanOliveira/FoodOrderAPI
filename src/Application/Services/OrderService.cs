@@ -12,13 +12,11 @@ namespace Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMenuItemRepository _menuItemRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository, IUnitOfWork unitOfWork)
+        public OrderService(IOrderRepository orderRepository, IMenuItemRepository menuItemRepository)
         {
             _orderRepository = orderRepository;
             _menuItemRepository = menuItemRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<OrderResponseDTO> CreateOrderAsync(CreateOrderDTO request)
@@ -37,11 +35,13 @@ namespace Application.Services
 
                 customer = new Customer(request.CustomerFirstName, request.CustomerLastName ?? string.Empty, request.CustomerPhoneNumber);
                 await _orderRepository.AddCustomerAsync(customer);
+                await _orderRepository.SaveChangesAsync();
             }
 
             var order = new Order(customer);
 
             await _orderRepository.AddOrderAsync(order);
+            await _orderRepository.SaveChangesAsync();
 
             var orderItems = new List<OrderItemResponseDTO>();
             decimal totalPrice = 0;
@@ -63,7 +63,7 @@ namespace Application.Services
             }
 
             order.UpdateTotalPrice(totalPrice);
-            await _unitOfWork.SaveChangesAsync();
+            await _orderRepository.SaveChangesAsync();
 
             return new OrderResponseDTO
             {

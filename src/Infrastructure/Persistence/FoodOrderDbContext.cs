@@ -7,7 +7,7 @@ using Domain.Entities;
 namespace Infrastructure.Persistence
 {
 
-    public class FoodOrderDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>, IUnitOfWork
+    public class FoodOrderDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
     {
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -52,7 +52,5 @@ namespace Infrastructure.Persistence
             customer.HasKey(c => c.Id);
             customer.Property(c => c.Id).ValueGeneratedOnAdd();
         }
-
-        public async Task SaveChangesAsync() => await base.SaveChangesAsync();
     }
 }

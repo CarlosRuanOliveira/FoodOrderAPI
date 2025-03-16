@@ -7,5 +7,6 @@ namespace Infrastructure.Repositories.Interfaces
         Task<MenuItem?> GetMenuItemByIdAsync(long itemId);
         Task<MenuItem> AddMenuItemAsync(MenuItem menuItem);
         Task<MenuItem?> GetMenuItemByNameAsync(string name);
+        Task SaveChangesAsync();
     }
 }

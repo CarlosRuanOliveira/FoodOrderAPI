@@ -5,26 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository : BaseRepository, IOrderRepository
     {
-        private readonly FoodOrderDbContext _context;
-
-        public OrderRepository(FoodOrderDbContext context)
-        {
-            _context = context;
-        }
+        public OrderRepository(FoodOrderDbContext context) : base(context) { }
 
         public async Task<Order> AddOrderAsync(Order order)
         {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            await _context.Orders.AddAsync(order);
             return order;
         }
 
         public async Task AddOrderItemAsync(OrderItem orderItem)
         {
-            _context.OrderItems.Add(orderItem);
-            await _context.SaveChangesAsync();
+            await _context.OrderItems.AddAsync(orderItem);
         }
 
         public async Task<Customer?> GetCustomerByPhoneAsync(string phoneNumber)
@@ -34,13 +27,7 @@ namespace Infrastructure.Repositories
 
         public async Task AddCustomerAsync(Customer customer)
         {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
+            await _context.Customers.AddAsync(customer);
         }
     }
 }
