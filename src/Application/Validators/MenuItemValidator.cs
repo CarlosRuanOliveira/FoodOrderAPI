@@ -14,8 +14,23 @@ namespace Application.Validators
             if (string.IsNullOrEmpty(request.Name))
                 throw new ValidationException(string.Format(ErrorMsg.ParamRequired, "Nome"));
 
-            if (request.PriceCents < MinimumMenuItemPrice)
-                throw new ValidationException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));
+            if (!IsPriceValid(request.PriceCents))
+                throw new ArgumentException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));
+        }
+
+        public static void ValidateUpdateMenuItemDTO(UpdateMenuItemDTO request)
+        {
+            if (request.Id <= 0)
+                throw new ArgumentException(string.Format(ErrorMsg.ParamRequired, request.Id));
+            if (string.IsNullOrWhiteSpace(request.Name))
+                throw new ArgumentException(string.Format(ErrorMsg.ParamRequired, "Nome"));
+            if (!IsPriceValid(request.PriceCents)){
+                throw new ArgumentException(string.Format(ErrorMsg.MinimumPrice, MinimumMenuItemPrice));}
+        }
+
+        private static bool IsPriceValid(decimal price)
+        {
+            return price >= MinimumMenuItemPrice;
         }
     }
 }
