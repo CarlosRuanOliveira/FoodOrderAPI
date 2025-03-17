@@ -1,4 +1,4 @@
-using Application.DTOs;
+using Application.DTOs.Request;
 using Application.Errors;
 
 namespace Application.Validators

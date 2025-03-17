@@ -1,4 +1,4 @@
-using Application.DTOs;
+using Application.DTOs.Response;
 using Application.Interfaces;
 using Application.Validators;
 using Infrastructure.Repositories.Interfaces;

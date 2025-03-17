@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Errors;
 
-namespace Application.DTOs
+namespace Application.DTOs.Request
 {
     public class OrderItemDTO
     {
