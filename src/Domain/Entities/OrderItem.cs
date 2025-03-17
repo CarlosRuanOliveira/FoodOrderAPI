@@ -13,5 +13,10 @@ namespace Domain.Entities
             ItemId = itemId;
             Quantity = quantity;
         }
+
+        public void UpdateQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
     }
 }

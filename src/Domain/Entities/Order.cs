@@ -42,5 +42,12 @@ namespace Domain.Entities
             UpdatedAt = DateTime.UtcNow;
             UpdatedBy = updatedBy;
         }
+
+        public void UpdateItems(List<OrderItem> updatedItems, long updatedBy)
+        {
+            OrderItems = updatedItems;
+            UpdatedAt = DateTime.UtcNow;
+            UpdatedBy = updatedBy;
+        }
     }
 }

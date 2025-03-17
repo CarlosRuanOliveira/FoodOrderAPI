@@ -1,3 +1,5 @@
+using Domain.Entities;
+
 namespace Application.DTOs.Response
 {
     public class OrderItemResponseDTO
