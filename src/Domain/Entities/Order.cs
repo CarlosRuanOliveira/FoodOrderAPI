@@ -35,5 +35,12 @@ namespace Domain.Entities
         {
             OrderItems.Add(item);
         }
+
+        public void UpdateStatus(OrderStatus newStatus, long updatedBy)
+        {
+            Status = newStatus;
+            UpdatedAt = DateTime.UtcNow;
+            UpdatedBy = updatedBy;
+        }
     }
 }

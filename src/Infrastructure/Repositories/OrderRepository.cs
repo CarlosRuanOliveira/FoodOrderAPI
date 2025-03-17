@@ -29,5 +29,15 @@ namespace Infrastructure.Repositories
         {
             await _context.Customers.AddAsync(customer);
         }
+
+        public async Task<Order?> GetByIdAsync(long id)
+        {
+            return await _context.Orders.FindAsync(id);
+        }
+
+        public void Update(Order order)
+        {
+            _context.Orders.Update(order);
+        }
     }
 }

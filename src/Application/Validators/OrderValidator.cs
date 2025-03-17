@@ -25,5 +25,11 @@ namespace Application.Validators
                 }
             }
         }
+
+        public static void ValidateUpdateOrder(UpdateOrderDTO request)
+        {
+            if (!Enum.IsDefined(typeof(Domain.Enums.OrderStatus), request.Status))
+                throw new ArgumentException(ErrorMsg.InvalidOrderStatus);
+        }
     }
 }
