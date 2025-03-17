@@ -9,10 +9,12 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IJwtService _jwtService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IJwtService jwtService)
         {
             _userService = userService;
+            _jwtService = jwtService;
         }
 
         [HttpPost]
@@ -20,6 +22,18 @@ namespace API.Controllers
         {
             var result = await _userService.CreateUserAsync(request);
             return Ok(result);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO request)
+        {
+            var user = await _userService.AuthenticateAsync(request.Email, request.Password);
+
+            if (user == null)
+                return Unauthorized();
+
+            var token = _jwtService.GenerateToken(user);
+            return Ok(new { Token = token });
         }
     }
 }

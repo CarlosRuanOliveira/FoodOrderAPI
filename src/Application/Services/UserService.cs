@@ -35,5 +35,15 @@ namespace Application.Services
                 Id = user.Id
             };
         }
+
+        public async Task<AppUser?> AuthenticateAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null && await _userManager.CheckPasswordAsync(user, password))
+                return user;
+
+            return null;
+        }
     }
 }
