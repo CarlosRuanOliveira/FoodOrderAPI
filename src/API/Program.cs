@@ -6,6 +6,7 @@ using Application.Services;
 using Infrastructure.Repositories.Interfaces;
 using Infrastructure.Repositories;
 using API.Middlewares;
+using Infrastructure.Persistence.Identity;
 
 var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
 
@@ -15,11 +16,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<FoodOrderDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-builder.Services.Configure<IdentityOptions>(options =>
+builder.Services.AddIdentity<AppUser, IdentityRole<long>>(options =>
 {
     options.User.RequireUniqueEmail = true;
     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-});
+})
+.AddEntityFrameworkStores<FoodOrderDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,6 +37,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
