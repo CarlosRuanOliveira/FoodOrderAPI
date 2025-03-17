@@ -1,5 +1,6 @@
 using Application.DTOs.Request;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,6 +26,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateOrder([FromRoute] long id, [FromBody] UpdateOrderDTO request)
         {
             await _orderService.UpdateOrderAsync(id, request);
@@ -32,6 +34,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}/OrderItems")]
+        [Authorize]
         public async Task<IActionResult> UpdateOrderItems([FromRoute] long id, [FromBody] UpdateOrderItemsDTO request)
         {
             var orderResponse = await _orderItemService.UpdateOrderItemsAsync(id, request);
