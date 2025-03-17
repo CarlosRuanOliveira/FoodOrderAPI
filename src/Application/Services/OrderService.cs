@@ -1,9 +1,9 @@
-using Application.DTOs;
+using Application.DTOs.Request;
+using Application.DTOs.Response;
 using Application.Errors;
 using Application.Interfaces;
 using Application.Validators;
 using Domain.Entities;
-using Domain.Enums;
 using Infrastructure.Repositories.Interfaces;
 
 namespace Application.Services

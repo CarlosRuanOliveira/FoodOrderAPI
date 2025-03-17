@@ -34,5 +34,12 @@ namespace Infrastructure.Repositories
         {
             _context.MenuItems.Remove(menuItem);
         }
+
+        public async Task<List<MenuItem>> GetMenuItemByIdsAsync(IEnumerable<long> itemIds)
+        {
+            return await _context.MenuItems
+                                 .Where(m => itemIds.Contains(m.Id))
+                                 .ToListAsync();
+        }
     }
 }

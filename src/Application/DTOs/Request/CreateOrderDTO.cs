@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using Application.Errors;
 
-namespace Application.DTOs
+namespace Application.DTOs.Request
 {
     public class CreateOrderDTO
     {
@@ -14,15 +13,5 @@ namespace Application.DTOs
 
         [Required]
         public required List<OrderItemDTO> OrderItems { get; set; }
-    }
-
-    public class OrderItemDTO
-    {
-        [Required]
-        public long ItemId { get; set; }
-
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = ErrorMsg.InvalidQuantity)]
-        public int Quantity { get; set; }
     }
 }

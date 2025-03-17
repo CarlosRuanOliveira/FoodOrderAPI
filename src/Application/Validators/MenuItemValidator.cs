@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Application.DTOs;
+using Application.DTOs.Request;
 using Application.Errors;
 
 namespace Application.Validators

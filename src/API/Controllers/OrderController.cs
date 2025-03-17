@@ -1,4 +1,4 @@
-using Application.DTOs;
+using Application.DTOs.Request;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +9,12 @@ namespace API.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
+        private readonly IOrderItemService _orderItemService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, IOrderItemService orderItemService)
         {
             _orderService = orderService;
+            _orderItemService = orderItemService;
         }
 
         [HttpPost]
@@ -27,6 +29,13 @@ namespace API.Controllers
         {
             await _orderService.UpdateOrderAsync(id, request);
             return NoContent();
+        }
+
+        [HttpPut("{id}/OrderItems")]
+        public async Task<IActionResult> UpdateOrderItems([FromRoute] long id, [FromBody] UpdateOrderItemsDTO request)
+        {
+            var orderResponse = await _orderItemService.UpdateOrderItemsAsync(id, request);
+            return Ok(orderResponse);
         }
     }
 }
