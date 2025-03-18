@@ -1,6 +1,7 @@
 using Application.DTOs.Request;
 using Application.DTOs.Response;
 using Application.Interfaces;
+using Application.Validators;
 using Infrastructure.Persistence.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,6 +18,8 @@ namespace Application.Services
 
         public async Task<UserResponseDTO> CreateUserAsync(CreateUserDTO request)
         {
+            UserValidator.ValidateCreateUserDTO(request);
+
             var user = new AppUser(request.FirstName, request.LastName, request.PhoneNumber, request.Email)
             {
                 UserName = request.Email,
