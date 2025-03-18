@@ -15,5 +15,6 @@ namespace Application.Errors
         public const string InvalidPaginationValues = "Os valores de página e tamanho da página devem ser maiores que zero.";
         public const string InvalidOrderStatus = "Status do pedido inválido.";
         public const string OrderNotFound = "Pedido com ID {0} não encontrado.";
+        public const string InvalidPhoneNumberFormat = "Telefone deve ter apenas números, de 10 a 11 dígitos";
     }
 }
