@@ -85,7 +85,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",
-                "https://foodorderapi-production.up.railway.app")
+                "https://foodorderapi-production.up.railway.app",
+                "https://food-order-web-sigma.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
