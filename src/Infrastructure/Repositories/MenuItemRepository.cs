@@ -41,5 +41,13 @@ namespace Infrastructure.Repositories
                                  .Where(m => itemIds.Contains(m.Id))
                                  .ToListAsync();
         }
+
+        public async Task<List<MenuItem>> GetMenuItemsPagedAsync(int page, int pageSize)
+        {
+            return await _context.MenuItems
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

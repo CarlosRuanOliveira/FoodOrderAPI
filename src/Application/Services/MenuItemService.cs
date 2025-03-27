@@ -63,5 +63,19 @@ namespace Application.Services
             _menuItemRepository.DeleteMenuItem(menuItem);
             await _menuItemRepository.SaveChangesAsync();
         }
+
+        public async Task<List<MenuItemResponseDTO>> GetMenuItemsAsync(int page, int pageSize)
+        {
+            MenuItemValidator.ValidatePageAndPageSize(page, pageSize);
+
+            var menuItems = await _menuItemRepository.GetMenuItemsPagedAsync(page, pageSize);
+
+            return menuItems.Select(i => new MenuItemResponseDTO
+            {
+                Id = i.Id,
+                Name = i.Name,
+                PriceCents = i.PriceCents
+            }).ToList();
+        }
     }
 }
