@@ -7,5 +7,6 @@ namespace Application.Interfaces
     {
         Task<OrderResponseDTO> CreateOrderAsync(CreateOrderDTO request);
         Task UpdateOrderAsync(long orderId, UpdateOrderDTO request);
+        Task<List<OrderResponseDTO>> GetOrdersAsync(int page, int pageSize);
     }
 }

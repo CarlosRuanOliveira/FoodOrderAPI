@@ -88,5 +88,20 @@ namespace Application.Services
             _orderRepository.Update(order);
             await _orderRepository.SaveChangesAsync();
         }
+
+        public async Task<List<OrderResponseDTO>> GetOrdersAsync(int page, int pageSize)
+        {
+            OrderValidator.ValidatePageAndPageSize(page, pageSize);
+
+            var orders = await _orderRepository.GetOrdersPagedAsync(page, pageSize);
+
+            return orders.Select(i => new OrderResponseDTO
+            {
+                OrderId = i.Id,
+                CustomerId = i.CustomerId,
+                TotalPriceCents = i.TotalPriceCents,
+                OrderItems = []
+            }).ToList();
+        }
     }
 }

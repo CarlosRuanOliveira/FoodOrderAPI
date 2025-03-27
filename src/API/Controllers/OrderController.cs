@@ -40,5 +40,13 @@ namespace API.Controllers
             var orderResponse = await _orderItemService.UpdateOrderItemsAsync(id, request);
             return Ok(orderResponse);
         }
+
+        [HttpGet("/Orders")]
+        [Authorize]
+        public async Task<IActionResult> GetOrders([FromQuery] int page = 1, int pageSize = 10)
+        {
+            var orders = await _orderService.GetOrdersAsync(page, pageSize);
+            return Ok(orders);
+        }
     }
 }
