@@ -8,5 +8,6 @@ namespace Application.Interfaces
         Task<MenuItemResponseDTO> CreateMenuItemAsync(CreateMenuItemDTO request);
         Task<MenuItemResponseDTO> UpdateMenuItemAsync(long id, UpdateMenuItemDTO request);
         Task DeleteMenuItemAsync(long menuItemId);
+        Task<List<MenuItemResponseDTO>> GetMenuItemsAsync(int page, int pageSize);
     }
 }

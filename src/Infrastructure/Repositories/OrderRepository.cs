@@ -39,5 +39,13 @@ namespace Infrastructure.Repositories
         {
             _context.Orders.Update(order);
         }
+
+        public async Task<List<Order>> GetOrdersPagedAsync(int page, int pageSize)
+        {
+            return await _context.Orders
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

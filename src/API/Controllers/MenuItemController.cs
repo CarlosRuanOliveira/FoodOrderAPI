@@ -37,5 +37,13 @@ namespace API.Controllers
             await _menuItemService.DeleteMenuItemAsync(id);
             return NoContent();
         }
+
+        [HttpGet("/MenuItems")]
+        [Authorize]
+        public async Task<IActionResult> GetCustomers([FromQuery] int page = 1, int pageSize = 10)
+        {
+            var customers = await _menuItemService.GetMenuItemsAsync(page, pageSize);
+            return Ok(customers);
+        }
     }
 }

@@ -4,7 +4,7 @@ using Application.Errors;
 
 namespace Application.Validators
 {
-    public class OrderValidator
+    public class OrderValidator : ValidatePaginationParams
     {
         public static void ValidateCreateOrderDTO(CreateOrderDTO request)
         {

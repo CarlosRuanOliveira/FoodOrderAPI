@@ -4,7 +4,7 @@ using Application.Errors;
 
 namespace Application.Validators
 {
-    public class MenuItemValidator
+    public class MenuItemValidator : ValidatePaginationParams
     {
 
         private const decimal MinimumMenuItemPrice = 0.01M;

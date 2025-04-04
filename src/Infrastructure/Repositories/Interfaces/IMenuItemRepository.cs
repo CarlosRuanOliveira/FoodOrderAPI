@@ -11,5 +11,6 @@ namespace Infrastructure.Repositories.Interfaces
         void UpdateMenuItem(MenuItem menuItem);
         void DeleteMenuItem(MenuItem menuItem);
         Task<List<MenuItem>> GetMenuItemByIdsAsync(IEnumerable<long> itemIds);
+        Task<List<MenuItem>> GetMenuItemsPagedAsync(int page, int pageSize);
     }
 }

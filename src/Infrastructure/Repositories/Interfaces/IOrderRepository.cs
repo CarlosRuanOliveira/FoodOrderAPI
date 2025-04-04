@@ -11,5 +11,6 @@ namespace Infrastructure.Repositories.Interfaces
         Task AddCustomerAsync(Customer customer);
         Task<Order?> GetByIdAsync(long id);
         void Update(Order order);
+        Task<List<Order>> GetOrdersPagedAsync(int page, int pageSize);
     }
 }
